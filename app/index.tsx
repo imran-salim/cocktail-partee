@@ -52,10 +52,10 @@ export default function Index() {
             style={styles.cocktail} 
             key={cocktail.idDrink}
           >
-            <Text>{cocktail.strDrink}</Text>
+            <Text style={styles.cocktailName}>{cocktail.strDrink}</Text>
             <Image 
               source={{ uri: cocktail.strDrinkThumb }} 
-              style={{ width: 100, height: 100 }} 
+              style={styles.cocktailImage} 
             />
           </View>
         ))}
@@ -92,13 +92,30 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 8,
-    margin: 8,
-    width: '80%',
+    padding: 16,
+    margin: 16,
+    width: '100%',
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: 'black',
     borderRadius: 8,
+    backgroundColor: 'white',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  cocktailName: {
+    color: 'black',
+    fontSize: 14,
+    fontWeight: 'bold',
+    marginBottom: 16,
+  },
+  cocktailImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   scrollview: {
     padding: 8,
