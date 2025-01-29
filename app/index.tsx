@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Text, TextInput, View, StyleSheet, ScrollView, Image, Keyboard } from "react-native";
+import { Button, Text, TextInput, View, StyleSheet, ScrollView, Image, Keyboard, FlatList } from "react-native";
 
 export default function Index() {
   const [searchText, setSearchText] = useState('');
@@ -46,20 +46,22 @@ export default function Index() {
       <View style={styles.searchButton}>
           <Button title="Search" onPress={() => fetchData()} />
       </View>
-      <ScrollView style={styles.scrollview}>
-        {cocktails.map((cocktail) => (
+      <FlatList 
+        style={styles.scrollview}
+        data={cocktails}
+        renderItem={({ item }) => (
           <View 
             style={styles.cocktail} 
-            key={cocktail.idDrink}
+            key={item.idDrink}
           >
-            <Text style={styles.cocktailName}>{cocktail.strDrink}</Text>
+            <Text style={styles.cocktailName}>{item.strDrink}</Text>
             <Image 
-              source={{ uri: cocktail.strDrinkThumb }} 
+              source={{ uri: item.strDrinkThumb }} 
               style={styles.cocktailImage} 
             />
           </View>
-        ))}
-      </ScrollView>
+        )}
+      />
     </View>
   );
 }
