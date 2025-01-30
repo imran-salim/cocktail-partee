@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Button, Text, TextInput, View, StyleSheet, ScrollView, Image, Keyboard, FlatList } from "react-native";
+import StyleSheet from 'react-native-media-query';
+import { Button, Text, TextInput, View, Image, Keyboard, FlatList, Dimensions } from "react-native";
 
 export default function Index() {
+  const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width);
   const [searchText, setSearchText] = useState('');
   const [cocktails, setCocktails] = useState<{ idDrink: string; strDrink: string, strDrinkThumb: string }[]>([]);
 
@@ -47,7 +49,7 @@ export default function Index() {
           <Button title="Search" onPress={() => fetchData()} />
       </View>
       <FlatList 
-        style={styles.scrollview}
+        style={styles.list}
         data={cocktails}
         renderItem={({ item }) => (
           <View 
@@ -57,7 +59,7 @@ export default function Index() {
             <Text style={styles.cocktailName}>{item.strDrink}</Text>
             <Image 
               source={{ uri: item.strDrinkThumb }} 
-              style={styles.cocktailImage} 
+              style={styles.cocktailImage}
             />
           </View>
         )}
@@ -66,40 +68,45 @@ export default function Index() {
   );
 }
 
-const styles = StyleSheet.create({
+const { ids, styles } = StyleSheet.create({
   heading: {
     textAlign: 'center',
     color: 'black',
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
     margin: 12,
+    '@media (min-width: 768px)': {
+      fontSize: 200,
+    }
   },
   searchBar: {
     color: 'black',
     borderWidth: 1,
     borderColor: 'black',
     height: 40,
-    width: '40%',
     margin: 12,
     paddingLeft: 8,
     alignSelf: 'center',
     borderRadius: 2,
+    '@media (min-width: 375px)': {
+      width: '25%',
+    },
+    '@media (min-width: 768px)': {
+      width: '25%',
+    }
   },
   searchButton: {
-    width: '25%',
     alignSelf: 'center',
   },
   cocktail: {
-    display: 'flex',
+    flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
     margin: 16,
-    width: '100%',
     alignSelf: 'center',
     borderWidth: 1,
-    borderColor: 'black',
     borderRadius: 8,
     backgroundColor: 'white',
     shadowColor: '#000',
@@ -115,14 +122,14 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   cocktailImage: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
   },
-  scrollview: {
+  list: {
     padding: 8,
     margin: 8,
-    width: '50%',
+    width: '100%',
     alignSelf: 'center',
   },
 });
