@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import StyleSheet from 'react-native-media-query';
 import { Button, Text, TextInput, View, Image, Keyboard, FlatList, Dimensions } from "react-native";
 
@@ -6,17 +6,21 @@ export default function Index() {
   const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width);
   const [searchText, setSearchText] = useState('');
   const [cocktails, setCocktails] = useState<{ idDrink: string; strDrink: string, strDrinkThumb: string }[]>([]);
+  const [ingredients, setIngredients] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list')
+      .then(response => response.json())
+      .then(data => data.drinks.map((ingredient: {strIngredient1: string }) => ingredient.strIngredient1.toLowerCase()))
+      .then(setIngredients);
+  }, [ingredients]);
 
   const fetchData = async () => {
     try {
       if (!searchText) {
         return;
       }
-
-      const ingredients = await fetch('https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list');
-      const ingredientData = await ingredients.json();
-      const ingredientList = ingredientData.drinks.map((ingredient: { strIngredient1: string }) => ingredient.strIngredient1.toLowerCase());
-      if (!ingredientList.includes(searchText.toLowerCase())) {
+      if (!ingredients.includes(searchText.toLowerCase())) {
         alert(`'${searchText}' is not a valid liquor`);
         return;
       }
