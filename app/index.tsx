@@ -13,7 +13,7 @@ export default function Index() {
       .then(response => response.json())
       .then(data => data.drinks.map((ingredient: {strIngredient1: string }) => ingredient.strIngredient1.toLowerCase()))
       .then(setIngredients);
-  }, [ingredients]);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -25,8 +25,8 @@ export default function Index() {
         return;
       }
 
-      const cocktails = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchText}`);
-      const cocktailData = await cocktails.json();
+      const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchText}`);
+      const cocktailData = await response.json();
       setCocktails(cocktailData.drinks);
       Keyboard.dismiss();
     } catch (error) {
